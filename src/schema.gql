@@ -1,0 +1,55 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type UserResponse {
+  statusCode: Int!
+  success: Boolean!
+  message: String
+  timestamp: String!
+  data: User!
+}
+
+type UsersResponse {
+  statusCode: Int!
+  success: Boolean!
+  message: String
+  timestamp: String!
+  data: [User!]!
+}
+
+type Query {
+  users: UsersResponse!
+  user(id: ID!): UserResponse
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserResponse!
+  updateUser(updateUserInput: UpdateUserInput!): UserResponse!
+  removeUser(id: ID!): UserResponse!
+}
+
+input CreateUserInput {
+  """Name of the user"""
+  name: String!
+
+  """Email address of the user"""
+  email: String!
+}
+
+input UpdateUserInput {
+  """Name of the user"""
+  name: String
+
+  """Email address of the user"""
+  email: String
+
+  """Unique identifier for the user to be updated"""
+  id: ID!
+}
