@@ -4,8 +4,31 @@
 
 type User {
   id: ID!
+  employeeId: String
   name: String!
+  phoneNumber: String!
   email: String!
+  role: UserRole!
+  department: Department
+}
+
+enum UserRole {
+  DIRECTOR
+  HR
+  PROJECT_MANAGER
+  TEAM_LEADER
+  EMPLOYEE
+}
+
+enum Department {
+  SHOPIFY
+  WORDPRESS
+  CUSTOM
+}
+
+type ValidationErrorItem {
+  field: String!
+  messages: [String!]!
 }
 
 type UserResponse {
@@ -13,7 +36,8 @@ type UserResponse {
   success: Boolean!
   message: String
   timestamp: String!
-  data: User!
+  errors: [ValidationErrorItem!]
+  data: User
 }
 
 type UsersResponse {
@@ -21,7 +45,17 @@ type UsersResponse {
   success: Boolean!
   message: String
   timestamp: String!
-  data: [User!]!
+  errors: [ValidationErrorItem!]
+  data: [User!]
+}
+
+type CreateUserResponse {
+  statusCode: Int!
+  success: Boolean!
+  message: String
+  timestamp: String!
+  errors: [ValidationErrorItem!]
+  data: User
 }
 
 type Query {
@@ -30,25 +64,43 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): UserResponse!
+  createUser(createUserInput: CreateUserInput!): CreateUserResponse!
   updateUser(updateUserInput: UpdateUserInput!): UserResponse!
   removeUser(id: ID!): UserResponse!
 }
 
 input CreateUserInput {
-  """Name of the user"""
-  name: String!
+  """Employee ID of the user"""
+  employeeId: String
 
-  """Email address of the user"""
-  email: String!
-}
-
-input UpdateUserInput {
   """Name of the user"""
   name: String
 
+  """Phone number of the user"""
+  phoneNumber: String
+
   """Email address of the user"""
   email: String
+
+  """Password for the user"""
+  password: String
+}
+
+input UpdateUserInput {
+  """Employee ID of the user"""
+  employeeId: String
+
+  """Name of the user"""
+  name: String
+
+  """Phone number of the user"""
+  phoneNumber: String
+
+  """Email address of the user"""
+  email: String
+
+  """Password for the user"""
+  password: String
 
   """Unique identifier for the user to be updated"""
   id: ID!
